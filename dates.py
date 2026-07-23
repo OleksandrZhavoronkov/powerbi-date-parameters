@@ -4,16 +4,21 @@ import calendar
 import csv
 
 
-# Ukraine timezone
+# Kyiv timezone
 tz = ZoneInfo("Europe/Kyiv")
 
-# Today in Kyiv
-today = datetime.now(tz).date()
+# Current date/time in Kyiv
+now = datetime.now(tz)
+today = now.date()
 
 
 def format_date(value):
+    if isinstance(value, datetime):
+        return ""
+    
     if value == "":
         return ""
+    
     return value.strftime("%Y-%m-%d")
 
 
@@ -23,7 +28,10 @@ def month_start(date_value):
 
 def month_end(date_value):
     return date_value.replace(
-        day=calendar.monthrange(date_value.year, date_value.month)[1]
+        day=calendar.monthrange(
+            date_value.year,
+            date_value.month
+        )[1]
     )
 
 
@@ -56,42 +64,44 @@ pre_previous_month = add_months(today, -2)
 
 rows = [
 
-    [1, "Date.today", today],
+    [1, "Date.today", today, ""],
 
-    [2, "Date.CurrentMonthStart", month_start(current_month)],
-    [3, "Date.CurrentMonthEnd", month_end(current_month)],
-    [4, "Date.8CalendarDayCurrentMonth", current_month.replace(day=8)],
-    [5, "Date.9CalendarDayCurrentMonth", current_month.replace(day=9)],
-    [6, "Date.16CalendarDayCurrentMonth", current_month.replace(day=16)],
-    [7, "Date.17CalendarDayCurrentMonth", current_month.replace(day=17)],
-    [8, "Date.24CalendarDayCurrentMonth", current_month.replace(day=24)],
-    [9, "Date.25CalendarDayCurrentMonth", current_month.replace(day=25)],
-
-
-    [10, "Date.PreviousMonthStart", month_start(previous_month)],
-    [11, "Date.PreviousMonthEnd", month_end(previous_month)],
-    [12, "Date.8CalendarDayPreviousMonth", previous_month.replace(day=8)],
-    [13, "Date.9CalendarDayPreviousMonth", previous_month.replace(day=9)],
-    [14, "Date.16CalendarDayPreviousMonth", previous_month.replace(day=16)],
-    [15, "Date.17CalendarDayPreviousMonth", previous_month.replace(day=17)],
-    [16, "Date.24CalendarDayPreviousMonth", previous_month.replace(day=24)],
-    [17, "Date.25CalendarDayPreviousMonth", previous_month.replace(day=25)],
+    [2, "Date.CurrentMonthStart", month_start(current_month), ""],
+    [3, "Date.CurrentMonthEnd", month_end(current_month), ""],
+    [4, "Date.8CalendarDayCurrentMonth", current_month.replace(day=8), ""],
+    [5, "Date.9CalendarDayCurrentMonth", current_month.replace(day=9), ""],
+    [6, "Date.16CalendarDayCurrentMonth", current_month.replace(day=16), ""],
+    [7, "Date.17CalendarDayCurrentMonth", current_month.replace(day=17), ""],
+    [8, "Date.24CalendarDayCurrentMonth", current_month.replace(day=24), ""],
+    [9, "Date.25CalendarDayCurrentMonth", current_month.replace(day=25), ""],
 
 
-    [18, "Date.PrePreviousMonthStart", month_start(pre_previous_month)],
-    [19, "Date.PrePreviousMonthEnd", month_end(pre_previous_month)],
-    [20, "Date.8CalendarDayPrePreviousMonth", pre_previous_month.replace(day=8)],
-    [21, "Date.9CalendarDayPrePreviousMonth", pre_previous_month.replace(day=9)],
-    [22, "Date.16CalendarDayPrePreviousMonth", pre_previous_month.replace(day=16)],
-    [23, "Date.17CalendarDayPrePreviousMonth", pre_previous_month.replace(day=17)],
-    [24, "Date.24CalendarDayPrePreviousMonth", pre_previous_month.replace(day=24)],
-    [25, "Date.25CalendarDayPrePreviousMonth", pre_previous_month.replace(day=25)],
+    [10, "Date.PreviousMonthStart", month_start(previous_month), ""],
+    [11, "Date.PreviousMonthEnd", month_end(previous_month), ""],
+    [12, "Date.8CalendarDayPreviousMonth", previous_month.replace(day=8), ""],
+    [13, "Date.9CalendarDayPreviousMonth", previous_month.replace(day=9), ""],
+    [14, "Date.16CalendarDayPreviousMonth", previous_month.replace(day=16), ""],
+    [15, "Date.17CalendarDayPreviousMonth", previous_month.replace(day=17), ""],
+    [16, "Date.24CalendarDayPreviousMonth", previous_month.replace(day=24), ""],
+    [17, "Date.25CalendarDayPreviousMonth", previous_month.replace(day=25), ""],
 
 
-    [26, "Date.LastSundayFromToday", last_sunday(today)],
+    [18, "Date.PrePreviousMonthStart", month_start(pre_previous_month), ""],
+    [19, "Date.PrePreviousMonthEnd", month_end(pre_previous_month), ""],
+    [20, "Date.8CalendarDayPrePreviousMonth", pre_previous_month.replace(day=8), ""],
+    [21, "Date.9CalendarDayPrePreviousMonth", pre_previous_month.replace(day=9), ""],
+    [22, "Date.16CalendarDayPrePreviousMonth", pre_previous_month.replace(day=16), ""],
+    [23, "Date.17CalendarDayPrePreviousMonth", pre_previous_month.replace(day=17), ""],
+    [24, "Date.24CalendarDayPrePreviousMonth", pre_previous_month.replace(day=24), ""],
+    [25, "Date.25CalendarDayPrePreviousMonth", pre_previous_month.replace(day=25), ""],
 
-    [27, "", ""],
-    [28, "", ""]
+
+    [26, "Date.LastSundayFromToday", last_sunday(today), ""],
+
+    [27, "", "", ""],
+    [28, "", "", ""],
+
+    [29, "Date.LastUpdated", "", now.strftime("%Y-%m-%d %H:%M:%S")]
 ]
 
 
@@ -108,20 +118,17 @@ with open(
         [
             "RowNumber",
             "Primary Column",
-            "DateToUse"
+            "DateToUse",
+            "UpdatedAt"
         ]
     )
 
+
     for row in rows:
-        writer.writerow(
-            [
-                row[0],
-                row[1],
-                format_date(row[2])
-            ]
-        )
+        writer.writerow(row)
 
 
 print("dates.csv successfully updated")
 print(f"Today: {today}")
 print(f"Last Sunday: {last_sunday(today)}")
+print(f"Updated at: {now}")
