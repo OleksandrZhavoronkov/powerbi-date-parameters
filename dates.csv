@@ -1,5 +1,5 @@
 RowNumber,Primary Column,DateToUse,UpdatedAt
-1,Date.today,2026-07-25,
+1,Date.today,2026-07-26,
 2,Date.CurrentMonthStart,2026-07-01,
 3,Date.CurrentMonthEnd,2026-07-31,
 4,Date.8CalendarDayCurrentMonth,2026-07-08,
@@ -24,7 +24,7 @@ RowNumber,Primary Column,DateToUse,UpdatedAt
 23,Date.17CalendarDayPrePreviousMonth,2026-05-17,
 24,Date.24CalendarDayPrePreviousMonth,2026-05-24,
 25,Date.25CalendarDayPrePreviousMonth,2026-05-25,
-26,Date.LastSundayFromToday,2026-07-19,
+26,Date.LastSundayFromToday,2026-07-26,
 27,,,
 28,,,
-29,Date.LastUpdated,,2026-07-25 01:13:24
+29,Date.LastUpdated,,2026-07-26 01:02:04
